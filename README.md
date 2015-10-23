@@ -1,23 +1,14 @@
 # MailHog-debian-package
 
-I try to package https://github.com/mailhog/MailHog to Debian/Ubuntu OS. But my first need is that it has to work on ubuntu 12.04 (aka ubuntu precise)
+[MailHog](https://github.com/mailhog/MailHog) package for Debian/Ubuntu OS.
 
-## Easy setup ...
+## Build instructions
 
-```
-echo "deb http://repo.deogracia.xyz/debian precise contrib" | sudo tee -a /etc/apt/sources.list.d/mailhog-debian-package.list
-wget -O - http://l.deogracia.xyz/2 | sudo apt-key add -
-sudo apt-get clean
-sudo apt-get update
-sudo apt-get install mailhog
-```
-I use the mailhog defaults
+You need:
 
-## ... Or use the build instructions
-You need 
  * build-install
  * fakeroot
- 
+
 ```
 git clone https://github.com/deogracia/MailHog-debian-package
 cd MailHog-debian-package

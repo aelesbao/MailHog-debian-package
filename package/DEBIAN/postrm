@@ -26,6 +26,7 @@ case "$1" in
     if [ -x /usr/sbin/update-rc.d ]; then
       update-rc.d -f mailhog remove || true
       deluser --quiet --system --remove-home $MAILHOG_USERNAME > /dev/null || true
+      rm -rf /var/lib/mailhog || true
     fi
     ;;
 
