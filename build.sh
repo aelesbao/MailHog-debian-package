@@ -1,13 +1,19 @@
 #!/bin/bash
 
 VERSION=${1:-0.1.8}
-ARCHITECTURE=${2:-amd64}
+if [[ `uname -i` == 'x86_64' ]]; then
+  _MAILHOG_ARCHITECTURE='amd64'
+  _PACKAGE_ARCHITECTURE='amd64'
+else
+  _MAILHOG_ARCHITECTURE='386'
+  _PACKAGE_ARCHITECTURE='i386'
+fi
 
 mkdir -p package/usr/sbin
-wget "https://github.com/mailhog/MailHog/releases/download/v${VERSION}/MailHog_linux_${ARCHITECTURE}" -q -O package/usr/sbin/mailhog
+wget "https://github.com/mailhog/MailHog/releases/download/v${VERSION}/MailHog_linux_${_MAILHOG_ARCHITECTURE}" -q -O package/usr/sbin/mailhog
 
 sed -i "s/^Version:.*$/Version: ${VERSION}-1.0/g" package/DEBIAN/control
-sed -i "s/^Architecture:.*$/Architecture: ${ARCHITECTURE}/g" package/DEBIAN/control
+sed -i "s/^Architecture:.*$/Architecture: ${_PACKAGE_ARCHITECTURE}/g" package/DEBIAN/control
 
 chmod 644 package/DEBIAN/conffiles
 chmod 755 package/DEBIAN/postinst
@@ -34,4 +40,4 @@ chmod 755 package/usr/share/man/
 chmod 755 package/usr/share/man/man8/
 chmod 644 package/usr/share/man/man8/mailhog.8.gz
 
-fakeroot dpkg-deb --build package mailhog_${VERSION}-1.0_${ARCHITECTURE}.deb
+fakeroot dpkg-deb --build package mailhog_${VERSION}-1.0_${_PACKAGE_ARCHITECTURE}.deb
